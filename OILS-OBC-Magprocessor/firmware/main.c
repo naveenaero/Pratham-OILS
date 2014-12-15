@@ -54,12 +54,12 @@ int main(void)
 
            for(i=0;i<7;i++)
            {
-               B[i] = receive_UART1();
+               B[i] = receive_UART0();
            }
            
            for(i=0;i<5;i++)
            {
-               poll[i] = receive_UART0();
+               poll[i] = receive_UART1();
            }
            
            for(i=0;i<5;i++)
@@ -72,7 +72,7 @@ int main(void)
            {
                
                sprintf(s,"%d",B[i]);
-               transmit_string_UART0(s);
+               transmit_string_UART1(s);
            }
        }
     
