@@ -20,7 +20,7 @@
 DEVICE     = atmega128
 CLOCK      = 8000000
 PROGRAMMER = -c avrispmkii -P usb
-OBJECTS    = main.o gps.o hm.o mag.o peripherals.o spi.o sun.o twi.o uart.o
+OBJECTS    = main.o gps.o hm.o mag.o peripherals.o spi.o sun.o twi.o uart.o 
 FUSES      = -U hfuse:w:0xd9:m -U lfuse:w:0x24:m
 
 # ATMega8 fuse bits used above (fuse bits for other devices are different!):
