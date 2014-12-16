@@ -22,10 +22,10 @@
 #include "peripherals.h"
 
 
-
+int i=0;
 volatile uint8_t tot_overflow;
 
-void timer0_init()
+void timer1_init()
 {
     // set up timer with prescaler = 256
     TCCR1B |= (1 << CS11);
@@ -45,8 +45,8 @@ void timer0_init()
 
 
 
-// TIMER0 overflow interrupt service routine
-// called whenever TCNT0 overflows
+// TIMER1 overflow interrupt service routine
+// called whenever TCNT1 overflows
 ISR(TIMER1_OVF_vect)
 {
     // keep a track of number of overflows
@@ -55,12 +55,11 @@ ISR(TIMER1_OVF_vect)
     {
         i=i+1;
         tot_overflow = 0;     // reset overflow counter
-        
         if(i==4)
-        i=0;
+            i=0;
         
-//        PORTA ^= 0xFF ;        // toggles the led
-       }
+
+    }
     
 }
 
@@ -102,11 +101,11 @@ int main(void)
     /************************************************************/
     configure_torquer();
     
-    int i=0;
+ 
     float A[4] = {1,0.75,0.5,0.25};
     float B[4] = {0.25,0.5,0.75,1};
     float C[4] = {0.5,0.5,0.5,0.5};
-    
+    timer_init();
     
     /************************************************************/
     while(1)
@@ -118,7 +117,7 @@ int main(void)
 
         ///* * Magnetometer and Torquer test
         
-        timer0_init();
+        
         
         
         ///* * Reading with ALL torquer on at once, in one direction
@@ -139,16 +138,6 @@ int main(void)
         set_PWM ();
             
             
-//
-//        PORTA = 0xA0;
-//        _delay_ms(5000);
-//        PORTA = 0x50;
-//        _delay_ms(1000);
-        
-//            i=i+1;
-//            if(i==3)
-//                break;
-//            
         ///* * Reading with one torquer on at once, in one direction
 //        transmit_string_UART0(array2);
 //        transmit_UART0('+');
