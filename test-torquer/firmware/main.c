@@ -25,7 +25,7 @@
 int i=0;
 volatile uint8_t tot_overflow;
 
-void timer1_init()
+void timer_init()
 {
     // set up timer with prescaler = 256
     TCCR1B |= (1 << CS11);
