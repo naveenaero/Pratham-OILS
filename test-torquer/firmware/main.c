@@ -16,11 +16,54 @@
  * Created: 07-04-2012 21:00:48
  *  Author: Hussain
  */
-
 #include "common.h"
 #include "uart.h"
 #include "mag.h"
 #include "peripherals.h"
+
+
+
+volatile uint8_t tot_overflow;
+
+void timer0_init()
+{
+    // set up timer with prescaler = 256
+    TCCR1B |= (1 << CS11);
+    
+    // initialize counter
+    TCNT1 = 0;
+    
+    // enable overflow interrupt
+    TIMSK |= (1 << TOIE1);
+    
+    // enable global interrupts
+    sei();
+    
+    // initialize overflow counter variable
+    tot_overflow = 0;
+}
+
+
+
+// TIMER0 overflow interrupt service routine
+// called whenever TCNT0 overflows
+ISR(TIMER1_OVF_vect)
+{
+    // keep a track of number of overflows
+    tot_overflow++;
+    if (tot_overflow >= 15)  // NOTE: '>=' is used
+    {
+        i=i+1;
+        tot_overflow = 0;     // reset overflow counter
+        
+        if(i==4)
+        i=0;
+        
+//        PORTA ^= 0xFF ;        // toggles the led
+       }
+    
+}
+
 
 /************************************************************/
 /*				Main begins									*/
@@ -75,6 +118,7 @@ int main(void)
 
         ///* * Magnetometer and Torquer test
         
+        timer0_init();
         
         
         ///* * Reading with ALL torquer on at once, in one direction
@@ -87,12 +131,14 @@ int main(void)
         transmit_UART0('Z');
         transmit_UART0('\r');
         Current_state.pwm.x_dir = 0;
-            Current_state.pwm.x = 32768;//*2*A[i];
+            Current_state.pwm.x = 32768*2*A[i];
         Current_state.pwm.y_dir = 0;
             Current_state.pwm.y = 32768;//*2*B[i];
         Current_state.pwm.z_dir = 0;
             Current_state.pwm.z = 32768;//*2*C[i];
         set_PWM ();
+            
+            
 //
 //        PORTA = 0xA0;
 //        _delay_ms(5000);
