@@ -54,6 +54,7 @@ int main(void)
     
     /// Inittialise UART0 for Transmission to terminal
      init_UART0();
+    init_UART1();
     
     
     /// Transmit "Hello" String
@@ -87,9 +88,26 @@ int main(void)
     
     
     /// Define 3 strings for storing Magnetometer field values
-     char sx[20];
-     char sy[20];
-     char sz[20];
+     char sx[2];
+     char sy[2];
+     char sz[2];
+    
+//    transmit_string_UART0(array3);
+//    transmit_UART0(' ');
+//    transmit_UART0('X');
+//    transmit_UART0(' ');
+//    transmit_UART0('Y');
+//    transmit_UART0(' ');
+//    transmit_UART0('Z');
+//    transmit_UART0('\r');
+//    Current_state.pwm.x_dir = 0;
+//    Current_state.pwm.x = 32768;
+//    Current_state.pwm.y_dir = 0;
+//    Current_state.pwm.y = 32768;
+//    Current_state.pwm.z_dir = 0;
+//    Current_state.pwm.z = 32768;
+//    set_PWM();
+
     
     /// Start while loop
 	   while (1)
@@ -104,7 +122,8 @@ int main(void)
            Bx|=(int16_t)receive_MM();
            
            By=(int16_t)receive_MM();
-           By=(By<<8); By &= 0xFF00;
+           By=(By<<8);
+           By &= 0xFF00;
            By|=(int16_t)receive_MM();
            
            Bz=(int16_t)receive_MM();
@@ -118,47 +137,70 @@ int main(void)
            /// Transmit Carriage return
            transmit_UART0('\r');
            
+//           transmit_string_UART0(array3);
+//           transmit_UART0(' ');
+//           transmit_UART0('X');
+//           transmit_UART0(' ');
+//           transmit_UART0('Y');
+//           transmit_UART0(' ');
+//           transmit_UART0('Z');
+//           transmit_UART0('\r');
+//           Current_state.pwm.x_dir = 0;
+//           Current_state.pwm.x = 32768;
+//           Current_state.pwm.y_dir = 0;
+//           Current_state.pwm.y = 32768;
+//           Current_state.pwm.z_dir = 0;
+//           Current_state.pwm.z = 32768;
+//           set_PWM();
+//           
            if (Bx != 0x00 || By != 0x00 || Bz != 0x00)
            {
                
            /// Copy Bx,By,Bz into Strings for transmiting
-           transmit_string_UART0(array2);
-           sprintf(sx,"%d",Bx);
-           sprintf(sy,"%d",By);
+//           transmit_string_UART0(array2);
            sprintf(sz,"%d",Bz);
-           
-           transmit_UART0('x');
-           transmit_string_UART0(sx);
-           transmit_UART0(' ');
-           
-           transmit_UART0('y');
-           transmit_string_UART0(sy);
-           transmit_UART0(' ');
+//           sprintf(sy,"%d",By);
+//           sprintf(sz,"%d",Bz);
            
            transmit_UART0('z');
            transmit_string_UART0(sz);
+           transmit_UART0(' ');
+           
+           sprintf(sz,"%d",By);
+           transmit_UART0('y');
+           transmit_string_UART0(sz);
+           transmit_UART0(' ');
+       
+           sprintf(sz,"%d",Bx);
+           transmit_UART0('x');
+           transmit_string_UART0(sz);
+           transmit_UART0(' ');
            transmit_UART0('\r');
+           
        
             
-           transmit_string_UART0(array3);
-           transmit_UART0(' ');
-           transmit_UART0('X');
-           transmit_UART0(' ');
-           transmit_UART0('Y');
-           transmit_UART0(' ');
-           transmit_UART0('Z');
-           transmit_UART0('\r');
-           Current_state.pwm.x_dir = 0;
+//           transmit_string_UART0(array3);
+//           transmit_UART0(' ');
+//           transmit_UART0('X');
+//           transmit_UART0(' ');
+//           transmit_UART0('Y');
+//           transmit_UART0(' ');
+//           transmit_UART0('Z');
+//           transmit_UART0('\r');
+//           Current_state.pwm.x_dir = 0;
            Current_state.pwm.x = 32768;
            Current_state.pwm.y_dir = 0;
            Current_state.pwm.y = 32768;
            Current_state.pwm.z_dir = 0;
            Current_state.pwm.z = 32768;
            set_PWM();
-            
+               
+              
+//
             }
-    return 0;  
+      
 }
+    return 0;
 }
 
 

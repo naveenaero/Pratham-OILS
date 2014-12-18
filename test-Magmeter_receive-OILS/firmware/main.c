@@ -66,15 +66,15 @@ int main(void)
     
     
     /// Blink LED to show that program is successfully running
-//     DDRA = 0xF0;
-//     PORTA = 0xF0;
-//     _delay_ms(1000);
-//     PORTA = 0x00;
-//     _delay_ms(1000);
-//     PORTA = 0xF0;
-//     _delay_ms(1000);
-//     PORTA = 0x00;
-//     _delay_ms(1000);
+     DDRA = 0xF0;
+     PORTA = 0xF0;
+     _delay_ms(1000);
+     PORTA = 0x00;
+     _delay_ms(1000);
+     PORTA = 0xF0;
+     _delay_ms(1000);
+     PORTA = 0x00;
+     _delay_ms(1000);
     
     
     /// Inittialise UART0 for Transmission to terminal
@@ -116,7 +116,12 @@ int main(void)
        {
             if(tot_overflow >= 15)         // find out what the value of x will be for a delay of 2 seconds
             {
+                
                send_MM_cmd("*00P\r");
+                UCSR1B|= (0<<RXEN1);
+                UCSR1B|= (1<<RXEN1);
+                
+                
 
                /// Receive and store Bx,By,Bz
                Bx=(int16_t)receive_MM();
@@ -167,6 +172,8 @@ int main(void)
                 tot_overflow = 0;
                 TCNT1 = 0;
             }
+           
+           
            
            
        }

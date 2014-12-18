@@ -22,7 +22,7 @@
 #include "peripherals.h"
 
 
-int i=0;
+int i=1;
 volatile uint8_t tot_overflow;
 
 void timer_init()
@@ -51,12 +51,13 @@ ISR(TIMER1_OVF_vect)
 {
     // keep a track of number of overflows
     tot_overflow++;
-    if (tot_overflow >= 15)  // NOTE: '>=' is used
+    if (tot_overflow >= 10)  // NOTE: '>=' is used
     {
         i=i+1;
         tot_overflow = 0;     // reset overflow counter
-        if(i==4)
-            i=0;
+        TCNT1 = 0;
+        if(i==3)
+            i=1;
         
 
     }
