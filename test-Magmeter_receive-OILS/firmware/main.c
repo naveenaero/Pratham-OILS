@@ -118,8 +118,10 @@ int main(void)
             {
                 
                send_MM_cmd("*00P\r");
-                UCSR1B|= (0<<RXEN1);
-                UCSR1B|= (1<<RXEN1);
+                tot_overflow = 0;
+                TCNT1 = 0;
+            }
+           
                 
                 
 
@@ -169,8 +171,7 @@ int main(void)
                
                }
                 
-                tot_overflow = 0;
-                TCNT1 = 0;
+                
             }
            
            

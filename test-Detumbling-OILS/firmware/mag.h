@@ -34,4 +34,7 @@ void poll_MM(void);
  */
 uint8_t receive_MM(void);
 
+
+void read_MM(void);
+
 #endif /* MAG_H_ */

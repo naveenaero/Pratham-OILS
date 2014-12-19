@@ -82,7 +82,7 @@ void read_SS(void);
 /**
  * @brief Reads magnetometer through UART
  */
-void read_MM (void);
+//void read_MM (void);
 
 /** @brief Send the data to Preflight computer through UART GPS
  *  @param data bytes pointer

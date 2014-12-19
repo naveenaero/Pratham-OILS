@@ -51,9 +51,9 @@ ISR(TIMER1_OVF_vect)
 {
     // keep a track of number of overflows
     tot_overflow++;
-    if (tot_overflow >= 10)  // NOTE: '>=' is used
+    if (tot_overflow >= 100)  // NOTE: '>=' is used
     {
-        i=i+1;
+        i++;
         tot_overflow = 0;     // reset overflow counter
         TCNT1 = 0;
         if(i==3)
@@ -103,7 +103,7 @@ int main(void)
     configure_torquer();
     
  
-    float A[4] = {1,0.75,0.5,0.25};
+    float A[4] = {1,0.75,0.25,0.25};
     float B[4] = {0.25,0.5,0.75,1};
     float C[4] = {0.5,0.5,0.5,0.5};
     timer_init();

@@ -51,15 +51,15 @@ void read_SS(void){
   
 }
 
-void read_MM(void){
-  
-  //power_up_peripheral(PMAG);
-  ///Poll the magnetometer for readings
-  poll_MM();
-  
-  //power_down_peripheral(PMAG);
-  
-}
+//void read_MM(void){
+//  
+//  //power_up_peripheral(PMAG);
+//  ///Poll the magnetometer for readings
+//  poll_MM();
+//  
+//  //power_down_peripheral(PMAG);
+//  
+//}
 
 void send_preflight(char *data, uint16_t size)
 {

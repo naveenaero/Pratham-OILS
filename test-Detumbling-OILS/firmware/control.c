@@ -108,27 +108,31 @@ void apply_torque(vector v_m)
 
 void control(void)
 {
-    vector v_m_D, v_B_o;
+    vector v_m_D, v_B;
     
     /// Reset PWM so that there is no interference in taking magmeter readings
-    reset_PWM();
+//    reset_PWM();
     
     /// Give delay of 100 microseconds
-    _delay_us(100);
-    
+//    _delay_us(100);
+//    
     /// Read Magnetometer
-    read_MM();
+//    read_MM();
+    
+    
+    
     
     ///Set the torquer values calculated in the last frame
     set_PWM();
+    
     
     v_B[0] = Current_state.mm.B_x;
     v_B[1] = Current_state.mm.B_y;
     v_B[2] = Current_state.mm.B_z;
     
-    if (v_B[0] == 0 || v_B[1] == 0 || v_B[2] == 0)
-    {
-        /// Calculate Detumbling mode moment
+//    if (v_B[0] != 0 || v_B[1] != 0 || v_B[2] != 0)
+//    {
+//        /// Calculate Detumbling mode moment
         detumbling(v_m_D);
         
         /// Check if the satellite is in detumbling mode
@@ -136,15 +140,17 @@ void control(void)
         {
             apply_torque(v_m_D);
         }
-
-    }
-    
     else
-    {
-        /// Apply no control/torque when all the magnetic field readings are zero
         reset_PWM();
-        
-    }
+
+//    }
+    
+//    else
+//    {
+//        /// Apply no control/torque when all the magnetic field readings are zero
+//        reset_PWM();
+//        
+//    }
     
 }
 

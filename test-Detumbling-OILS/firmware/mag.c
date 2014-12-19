@@ -37,12 +37,17 @@ static volatile uint8_t t;
 
 void poll_MM(void)
 {
+    ///Send the poll command
+    send_MM_cmd("*00P\r");
+}
+
+void read_MM(void)
+{
   ///Temporary variables for magnetometer readings
   int16_t x, y, z;
   uint8_t tmp;
   
-  ///Send the poll command
-//  send_MM_cmd("*00P\r");
+  
   
   x = ((int16_t)receive_MM()) << 8;
   x &= 0xFF00;
@@ -61,12 +66,15 @@ void poll_MM(void)
   
   char buf[100];
   sprintf(buf,"%d %d %d\r",  x, y, z);
-  send_preflight(buf, strlen(buf));
+//  send_preflight(buf, strlen(buf));
     
+   if(x!=0x00 || y!=0x00 || z!=0x00)
+   {
   ///Convert the readings to Gauss
-  Current_state.mm.B_x = ((float) x) / 15000;
-  Current_state.mm.B_y = ((float) y) / 15000;
-  Current_state.mm.B_z = ((float) z) / 15000;
+      Current_state.mm.B_x = ((float) x) / 15000;
+      Current_state.mm.B_y = ((float) y) / 15000;
+      Current_state.mm.B_z = ((float) z) / 15000;
+   }
 }
 
 uint8_t receive_MM(void)

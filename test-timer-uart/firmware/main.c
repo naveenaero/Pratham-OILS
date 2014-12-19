@@ -21,7 +21,25 @@
 #include "uart.h"
 #include "mag.h"
 #include "peripherals.h"
+#include <string.h>
 
+
+void transmit_float(float f)
+{
+    unsigned char *ptr;
+    int i=0;
+    ptr = (unsigned char*)&f;
+    for(i=0;i<sizeof(float);transmit_UART0(*(ptr+i)),i++);
+    
+}
+
+void OutputFloat(char *address)
+{
+    int i=0;
+    for(i=0;i<4;i++)
+    transmit_UART0(*(address+i));
+    
+}
 
 volatile uint8_t tot_overflow;
 
@@ -83,19 +101,19 @@ int main(void)
     
     
     /// Transmit "Hello" String
-     transmit_UART0('\r');
-     transmit_UART0('\r');
-     transmit_UART0('H');
-     transmit_UART0('e');
-     transmit_UART0('l');
-     transmit_UART0('l');
-     transmit_UART0('o');
+//     transmit_UART0('\r');
+//     transmit_UART0('\r');
+//     transmit_UART0('H');
+//     transmit_UART0('e');
+//     transmit_UART0('l');
+//     transmit_UART0('l');
+//     transmit_UART0('o');
 
     
      sprintf(array1,"\tThis is PRATHAM's OBC-Master code...");
      sprintf(array2,"\rThis code is being used for testing AVR-timer with UART\t");
-     transmit_string_UART0(array1);
-     transmit_string_UART0(array2);
+//     transmit_string_UART0(array1);
+//     transmit_string_UART0(array2);
     
     /// Initialise UART1 for Magnetometer Reception of Data and Transmission of Poll
      init_UART_MM();
@@ -109,17 +127,30 @@ int main(void)
     
     /// Initialise the Timer
     timer_init();
+    //char s[10];
     
+    double b = 65.45;
+    int j=0;
+    char s[8];
+    
+    char *ptr;
+    
+    int64_t g = 65000;
+    ptr = (char*)&b;
+//    sprintf(s,"%d",g);
     /// Start while loop
-	   while (1)
+	   while (j<1)
        {
             if(tot_overflow >= 10)         // find out what the value of x will be for a delay of 2 seconds
             {
-                transmit_UART0('A');
-                transmit_UART0('\r');
+//               transmit_float(b);
+//                transmit_string_UART0(s);
+//                transmit_UART0('\r');
+                OutputFloat(ptr);
                 PORTA ^= 0xFF;
                 tot_overflow = 0;
                 TCNT1 = 0;
+                j++;
             }
            
            
