@@ -27,7 +27,7 @@
 uint64_t Time;
 volatile struct state Current_state;
 
-
+//int16_t Bx,By,Bz;
 volatile uint8_t tot_overflow;
 
 void timer_init(void)
@@ -66,9 +66,7 @@ int main(void)
 //    char array1[40];
 //    char array2[40];
 
-    int16_t Bx;
-    int16_t By;
-    int16_t Bz;
+   
     
     
     /// Blink LED to show that program is successfully running
@@ -132,26 +130,43 @@ int main(void)
 //           }
            
            /// Read Magmeter every time Simulink sends something whether 0 or non-zero
-           read_MM();
+//           read_MM();
+           
+           Bx=(int16_t)receive_MM();
+           Bx=(Bx<<8);
+           Bx &= 0xFF00;
+           Bx|=(int16_t)receive_MM();
+           
+           By=(int16_t)receive_MM();
+           By=(By<<8); By &= 0xFF00;
+           By|=(int16_t)receive_MM();
+           
+           Bz=(int16_t)receive_MM();
+           Bz=(Bz<<8);
+           Bz &= 0xFF00;
+           Bz|=(int16_t)receive_MM();
+           
+           /// Receive carriage return and ignore
+           receive_MM();
            
            /// when atleast one of the values is non-zero, execute the control Law
-           if (Current_state.mm.B_x !=0 || Current_state.mm.B_y != 0 || Current_state.mm.B_z != 0)
+           if (Bx !=0x00 || By != 0x00 || Bz != 0x00)
            {
                /// Apply control Law
                control();
                
                /// Transmit Magnetic field Data to terminal
-               sprintf(sx,"%d",Current_state.mm.B_x);
+               sprintf(sx,"%d",Bx);
                transmit_UART0('X');
                transmit_string_UART0(sx);
                transmit_UART0(' ');
                
-               sprintf(sy,"%d",Current_state.mm.B_y);
+               sprintf(sy,"%d",By);
                transmit_UART0('Y');
                transmit_string_UART0(sy);
                transmit_UART0(' ');
                
-               sprintf(sz,"%d",Current_state.mm.B_z);
+               sprintf(sz,"%d",Bz);
                transmit_UART0('Z');
                transmit_string_UART0(sz);
                transmit_UART0(' ');

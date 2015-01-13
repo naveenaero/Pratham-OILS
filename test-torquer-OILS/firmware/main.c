@@ -23,7 +23,7 @@
 #include "peripherals.h"
 
 
-
+int dir=0;
 int i=1;
 volatile uint8_t tot_overflow;
 
@@ -129,39 +129,14 @@ int main(void)
      char sy[2];
      char sz[2];
     
-//    transmit_string_UART0(array3);
-//    transmit_UART0(' ');
-//    transmit_UART0('X');
-//    transmit_UART0(' ');
-//    transmit_UART0('Y');
-//    transmit_UART0(' ');
-//    transmit_UART0('Z');
-//    transmit_UART0('\r');
-//    Current_state.pwm.x_dir = 0;
-//    Current_state.pwm.x = 32768;
-//    Current_state.pwm.y_dir = 0;
-//    Current_state.pwm.y = 32768;
-//    Current_state.pwm.z_dir = 0;
-//    Current_state.pwm.z = 32768;
-//    set_PWM();
+    
 
     float A[4] = {1,0.75,0.50,0.25};
     timer_init();
     /// Start while loop
 	   while (1)
        {
-          if(tot_overflow >= 100)
-          {
-              i=i+1;
-              if(i==4)
-              {
-                  i=1;
-              }
-              TCNT1 = 0;
-              tot_overflow = 0;
-              send_MM_cmd("*00P\r");
-//
-          }
+          
 
            /// Receive and store Bx,By,Bz
            Bx=(int16_t)receive_MM();
@@ -185,22 +160,7 @@ int main(void)
            /// Transmit Carriage return
            transmit_UART0('\r');
            
-//           transmit_string_UART0(array3);
-//           transmit_UART0(' ');
-//           transmit_UART0('X');
-//           transmit_UART0(' ');
-//           transmit_UART0('Y');
-//           transmit_UART0(' ');
-//           transmit_UART0('Z');
-//           transmit_UART0('\r');
-//           Current_state.pwm.x_dir = 0;
-//           Current_state.pwm.x = 32768;
-//           Current_state.pwm.y_dir = 0;
-//           Current_state.pwm.y = 32768;
-//           Current_state.pwm.z_dir = 0;
-//           Current_state.pwm.z = 32768;
-//           set_PWM();
-//           
+
            if (Bx != 0x00 || By != 0x00 || Bz != 0x00)
            {
                
@@ -227,24 +187,27 @@ int main(void)
            
        
             
-//           transmit_string_UART0(array3);
-//           transmit_UART0(' ');
-//           transmit_UART0('X');
-//           transmit_UART0(' ');
-//           transmit_UART0('Y');
-//           transmit_UART0(' ');
-//           transmit_UART0('Z');
-//           transmit_UART0('\r');
-           Current_state.pwm.x_dir = 0;
-           Current_state.pwm.x = 32768*2*A[i];
-           Current_state.pwm.y_dir = 0;
-           Current_state.pwm.y = 327688*2*A[i];
-           Current_state.pwm.z_dir = 0;
-           Current_state.pwm.z = 32768*2*A[i];
+           transmit_string_UART0(array3);
+           transmit_UART0(' ');
+           transmit_UART0('X');
+           transmit_UART0(' ');
+           transmit_UART0('Y');
+           transmit_UART0(' ');
+           transmit_UART0('Z');
+           transmit_UART0('\r');
+        if (dir==0)
+            dir=1;
+        else
+            dir=0;
+           Current_state.pwm.x_dir = dir;
+           Current_state.pwm.x = 32768*2*Bx/5225;
+           Current_state.pwm.y_dir = dir;
+           Current_state.pwm.y = 32768*By*2/5225;
+           Current_state.pwm.z_dir = dir;
+           Current_state.pwm.z = 32768*Bz*2/5225;
            set_PWM();
-               
-              
-//
+          
+
             }
       
 }

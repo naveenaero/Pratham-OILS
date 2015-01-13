@@ -126,9 +126,9 @@ void control(void)
     set_PWM();
     
     
-    v_B[0] = Current_state.mm.B_x;
-    v_B[1] = Current_state.mm.B_y;
-    v_B[2] = Current_state.mm.B_z;
+    v_B[0] = ((float)Bx)/15000;
+    v_B[1] = ((float)By)/15000;
+    v_B[2] = ((float)Bz)/15000;
     
 //    if (v_B[0] != 0 || v_B[1] != 0 || v_B[2] != 0)
 //    {
@@ -136,7 +136,7 @@ void control(void)
         detumbling(v_m_D);
         
         /// Check if the satellite is in detumbling mode
-        if (vector_norm(v_m_D) > 2)
+        if (vector_norm(v_m_D) > 0.0002)
         {
             apply_torque(v_m_D);
         }

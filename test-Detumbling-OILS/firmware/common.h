@@ -50,7 +50,7 @@
 /// Failure Mode
 #define EMERGENCY 3
 /// Detumbling Mode
-#define DETUMBLING 4
+//#define DETUMBLING 4
 //@}
 
 /**

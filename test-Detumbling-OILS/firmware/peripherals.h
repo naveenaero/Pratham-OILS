@@ -18,7 +18,7 @@
 
 #define TRUE 1
 #define FALSE 0
-
+int16_t Bx,By,Bz;
 /// Captures GPS reading
 struct GPS_reading{
   ///* Position data bytes: Long(4) Unit(mm) ECEF Frame

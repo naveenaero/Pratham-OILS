@@ -114,15 +114,15 @@ int main(void)
     /// Start while loop
 	   while (1)
        {
-            if(tot_overflow >= 15)         // find out what the value of x will be for a delay of 2 seconds
-            {
-                
-               send_MM_cmd("*00P\r");
-                tot_overflow = 0;
-                TCNT1 = 0;
-            }
+//            if(tot_overflow >= 15)         // find out what the value of x will be for a delay of 2 seconds
+//            {
+//                
+//               send_MM_cmd("*00P\r");
+//                tot_overflow = 0;
+//                TCNT1 = 0;
+//            }
+//           
            
-                
                 
 
                /// Receive and store Bx,By,Bz
@@ -148,22 +148,27 @@ int main(void)
                
                if (Bx != 0x00 || By != 0x00 || Bz != 0x00)
                {
-     
+                   
+                   Current_state.mm.B_x=Bx;
+                
                    /// Copy Bx,By,Bz into Strings for transmiting
-                   sprintf(sx,"%d",Bx);
-                   sprintf(sy,"%d",By);
-                   sprintf(sz,"%d",Bz);
+                   sprintf(sx,"%d",Current_state.mm.B_x);
+                   
                    
                    transmit_UART0('x');
                    transmit_string_UART0(sx);
                    transmit_UART0(' ');
                    
                    transmit_UART0('y');
-                   transmit_string_UART0(sy);
+                   sprintf(sx,"%d",Bz);
+                   
+                   transmit_string_UART0(sx);
                    transmit_UART0(' ');
                    
                    transmit_UART0('z');
-                   transmit_string_UART0(sz);
+                   sprintf(sx,"%d",Bz);
+                   
+                   transmit_string_UART0(sx);
                    transmit_UART0('\r');
                    
                    transmit_string_UART0("Hello this is Naveen from IITB");
@@ -177,7 +182,7 @@ int main(void)
            
            
            
-       }
+    
     return 0;  
 }
 
