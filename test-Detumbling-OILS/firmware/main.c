@@ -190,6 +190,61 @@ int main(void)
                transmit_UART0(' ');
                transmit_UART0('\r');
                
+               ////////////////////////////
+               
+//               sprintf(sx,"%d",norm_vect);
+//               transmit_UART0('D');
+//               transmit_string_UART0(sx);
+//               transmit_UART0(' ');
+//               transmit_UART0('\r');
+               
+               ///////////////////////////
+               
+               sprintf(sx,"%d",Bdot[0]);
+               transmit_UART0('P');
+               transmit_string_UART0(sx);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+
+               sprintf(sy,"%d",Bdot[1]);
+               transmit_UART0('Q');
+               transmit_string_UART0(sy);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+
+               sprintf(sz,"%d",Bdot[2]);
+               transmit_UART0('R');
+               transmit_string_UART0(sz);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+               
+               //////////////////////////
+               
+               sprintf(sx,"%d",temp[0]);
+               transmit_UART0('L');
+               transmit_string_UART0(sx);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+               
+               sprintf(sy,"%d",temp[1]);
+               transmit_UART0('M');
+               transmit_string_UART0(sy);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+               
+               sprintf(sz,"%d",temp[2]);
+               transmit_UART0('N');
+               transmit_string_UART0(sz);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+               
+//               sprintf(sz,"%d",temp);
+//               transmit_UART0('M');
+//               transmit_string_UART0(sz);
+//               transmit_UART0(' ');
+//               transmit_UART0('\r');
+               
+               
                
 //                              Current_state.pwm.x_dir = 0;
 //               Current_state.pwm.y_dir = 0;
