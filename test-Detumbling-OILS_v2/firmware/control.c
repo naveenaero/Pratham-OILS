@@ -10,6 +10,7 @@
 #include "common.h"
 #include "control.h"
 #include "mathutil.h"
+//#include "propagator.h"
 #include "peripherals.h"
 
 
@@ -91,9 +92,6 @@ void apply_torque(vector v_m)
         
     }
     
-        vg[0] = v_m[0]*65535;
-        vg[1] = v_m[1]*65535;
-        vg[2] = v_m[2]*65535;
     /// Assigning required values of currents to be given to torquers
     Current_state.pwm.x = fabs((v_m[0] * PWM_RES) / I_MAX);
     Current_state.pwm.y = fabs((v_m[1] * PWM_RES) / I_MAX);
@@ -110,25 +108,49 @@ void apply_torque(vector v_m)
 
 void control(void)
 {
-    vector v_m_D;
+    vector v_m_D, v_B;
+    
+    /// Reset PWM so that there is no interference in taking magmeter readings
+//    reset_PWM();
+    
+    /// Give delay of 100 microseconds
+//    _delay_us(100);
+//    
+    /// Read Magnetometer
+//    read_MM();
+    
+    
+    
     
     ///Set the torquer values calculated in the last frame
     set_PWM();
     
-    /// typecasting to float is necessary because int/int will be int and not float.
+    
     v_B[0] = ((float)Bx)/15000;
     v_B[1] = ((float)By)/15000;
     v_B[2] = ((float)Bz)/15000;
     
-    detumbling(v_m_D);
-    
-    /// Check if the satellite is in detumbling mode
-    if (vector_norm(v_m_D) > 0.0002)
+//    if (v_B[0] != 0 || v_B[1] != 0 || v_B[2] != 0)
+//    {
+//        /// Calculate Detumbling mode moment
+        detumbling(v_m_D);
+        
+        /// Check if the satellite is in detumbling mode
+        if (vector_norm(v_m_D) > 0.0002)
         {
             apply_torque(v_m_D);
         }
     else
         reset_PWM();
+
+//    }
+    
+//    else
+//    {
+//        /// Apply no control/torque when all the magnetic field readings are zero
+//        reset_PWM();
+//        
+//    }
     
 }
 

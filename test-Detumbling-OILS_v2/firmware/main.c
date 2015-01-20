@@ -22,52 +22,16 @@
 #include "mag.h"
 #include "peripherals.h"
 #include "control.h"
-//#include "timer.h"
 
-uint64_t Time;
+
 volatile struct state Current_state;
 
-//int16_t Bx,By,Bz;
-volatile uint8_t tot_overflow;
-
-void timer_init(void)
-{
-    // set up timer with prescaler = 256
-    TCCR1B |= (1 << CS11);
-    
-    // initialize counter
-    TCNT1 = 0;
-    
-    // enable overflow interrupt
-    TIMSK |= (1 << TOIE1);
-    
-    // enable global interrupts
-    sei();
-    
-    // initialize overflow counter variable
-    tot_overflow = 0;
-}
-
-ISR(TIMER1_OVF_vect)
-{
-    // keep a track of number of overflows
-    tot_overflow++;
-    
-}
 
 /************************************************************/
 /*				Main begins									*/
 /************************************************************/
 int main(void)
 {
-    
-    /// Define Variables to store Magnetic field
-//    char array[40];
-//    char array1[40];
-//    char array2[40];
-
-   
-    
     
     /// Blink LED to show that program is successfully running
      DDRA = 0xF0;
@@ -95,10 +59,10 @@ int main(void)
      transmit_UART0('o');
 
     
-//     sprintf(array1,"\tThis is PRATHAM's OBC-Master code...");
-//     sprintf(array2,"\rCurrent MagnetoMeter and Torquer state is =\t");
-//     transmit_string_UART0(array1);
-//     transmit_string_UART0(array2);
+     sprintf(array1,"\tThis is PRATHAM's OBC-Master code...");
+     sprintf(array2,"\rCurrent MagnetoMeter and Torquer state is =\t");
+     transmit_string_UART0(array1);
+     transmit_string_UART0(array2);
     
     /// Configure the Magnetometer
      init_UART_MM();
@@ -112,26 +76,9 @@ int main(void)
      char sy[20];
      char sz[20];
     
-    
-    Time = 0;
-//    timer_reset_teo_sec();
-    
-       while (1)
-       {
-           /// check for 2 seconds
-//           if(tot_overflow >= 30)
-//           {
-//               Time += 2;
-//               reset_PWM();
-//               send_MM_cmd("*00P\r");
-//               poll_MM();
-//               TCNT1 = 0;
-//               tot_overflow = 0;
-//           }
-           
-           /// Read Magmeter every time Simulink sends something whether 0 or non-zero
-//           read_MM();
-           
+    while (1)
+        {
+           /// Receive Magnetic field everytime
            Bx=(int16_t)receive_MM();
            Bx=(Bx<<8);
            Bx &= 0xFF00;
@@ -155,7 +102,6 @@ int main(void)
                /// Apply control Law
                control();
                
-               
                /// Transmit Magnetic field Data to terminal
                sprintf(sx,"%d",Bx);
                transmit_UART0('X');
@@ -172,49 +118,29 @@ int main(void)
                transmit_string_UART0(sz);
                transmit_UART0(' ');
                transmit_UART0('\r');
-               ////////////////////////////////////////////
-               
-               sprintf(sx,"%d",vg[0]);
-               transmit_UART0('A');
-               transmit_string_UART0(sx);
-               transmit_UART0(' ');
-               
-               sprintf(sx,"%d",vg[1]);
-               transmit_UART0('B');
-               transmit_string_UART0(sx);
-               transmit_UART0(' ');
-               
-               sprintf(sx,"%d",vg[2]);
-               transmit_UART0('C');
-               transmit_string_UART0(sx);
-               transmit_UART0(' ');
-               transmit_UART0('\r');
                
                
-//                              Current_state.pwm.x_dir = 0;
-//               Current_state.pwm.y_dir = 0;
-//               Current_state.pwm.z_dir = 0;
+               
+           
                
                
                /// Transmit Torquer Current Data to the Terminal
-//               sprintf(sx,"%d",Current_state.pwm.x);
-//               transmit_UART0('X');
-//               transmit_string_UART0(sx);
-//               transmit_UART0(' ');
-//               
-//               sprintf(sy,"%d",Current_state.pwm.y);
-//               transmit_UART0('Y');
-//               transmit_string_UART0(sy);
-//               transmit_UART0(' ');
-//               
-//               sprintf(sz,"%d",Current_state.pwm.z);
-//               transmit_UART0('Z');
-//               transmit_string_UART0(sz);
-//               transmit_UART0(' ');
-//               transmit_UART0('\r');
+               sprintf(sx,"%d",Current_state.pwm.x);
+               transmit_UART0('X');
+               transmit_string_UART0(sx);
+               transmit_UART0(' ');
                
+               sprintf(sy,"%d",Current_state.pwm.y);
+               transmit_UART0('Y');
+               transmit_string_UART0(sy);
+               transmit_UART0(' ');
                
-//               
+               sprintf(sz,"%d",Current_state.pwm.z);
+               transmit_UART0('Z');
+               transmit_string_UART0(sz);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
+               
                
                
                
