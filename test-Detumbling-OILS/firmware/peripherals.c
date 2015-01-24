@@ -107,7 +107,7 @@ void reset_PWM(void)
   Current_state.pwm.x_dir = 0;
   Current_state.pwm.y_dir = 0;
   Current_state.pwm.z_dir = 0;
-//  set_PWM();
+  set_PWM();
 }
 
 void set_PWM(void)
