@@ -112,7 +112,7 @@ int main(void)
 	
 	///* * Reading GPS
     read_GPS();
-    while(UCSR1B & _BV(RXCIE1));
+    while(UCSR0B & _BV(RXCIE0));
 //	send_preflight((char *)&Current_state.gps, sizeof(struct GPS_reading));
 	sprintf(array,"x = %lu \n",Current_state.gps.x);
     transmit_string_UART0(array);

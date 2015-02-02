@@ -36,42 +36,42 @@ char arrayz[40];
 void init_UART_GPS(void )
 {
 
-    UCSR1A = 0;
-    UCSR1B = 0;
-    UCSR1C = 0;
-    
-    ///Double Baud Rate
-    UCSR1A |= _BV(U2X1);
-    ///Enable Transmission and Reception
-    UCSR1B |= _BV(TXEN1) | _BV(RXEN1) | _BV(RXCIE1);
-    ///8-bit Data Byte
-    UCSR1C |= _BV(UCSZ11) | _BV(UCSZ10);
-    ///Set Baud Rate to 9600
-    UBRR1L = 103;
-    UBRR1H = 0;
+//    UCSR1A = 0;
+//    UCSR1B = 0;
+//    UCSR1C = 0;
+//    
+//    ///Double Baud Rate
+//    UCSR1A |= _BV(U2X1);
+//    ///Enable Transmission and Reception
+//    UCSR1B |= _BV(TXEN1) | _BV(RXEN1) | _BV(RXCIE1);
+//    ///8-bit Data Byte
+//    UCSR1C |= _BV(UCSZ11) | _BV(UCSZ10);
+//    ///Set Baud Rate to 9600
+//    UBRR1L = 103;
+//    UBRR1H = 0;
 
-//  UCSR0A = 0;
-//  UCSR0B = 0;
-//  UCSR0C = 0;
-//  
-//  ///Double Baud Rate
-//  UCSR0A |= _BV(U2X0);
-//  ///Enable Reception
-//  UCSR0B |= _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);
-//  ///8-bit Data Byte, 2 Stop bits
-//  UCSR0C |= _BV(USBS0) | _BV(UCSZ01) | _BV(UCSZ00);
-//  ///Set Baud Rate to 9600
-//  UBRR0L = 103;
-//  UBRR0H = 0;
+  UCSR0A = 0;
+  UCSR0B = 0;
+  UCSR0C = 0;
+  
+  ///Double Baud Rate
+  UCSR0A |= _BV(U2X0);
+  ///Enable Reception
+  UCSR0B |= _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);
+  ///8-bit Data Byte, 2 Stop bits
+  UCSR0C |= _BV(USBS0) | _BV(UCSZ01) | _BV(UCSZ00);
+  ///Set Baud Rate to 9600
+  UBRR0L = 103;
+  UBRR0H = 0;
 }
 
 /** @brief Interrupt on receiving a byte through UART GPS
  */
-ISR(USART1_RX_vect)
+ISR(USART0_RX_vect)
 {
   
   ///Buffer the Received Byte
-  last_byte = UDR1;
+  last_byte = UDR0;
   
   ///Put the received byte in the last 4-bytes buffer
   buffer = buffer << 8;
@@ -253,7 +253,7 @@ ISR(USART1_RX_vect)
     GPS_done = 1;
     
     ///* Switch off the interrupt
-    UCSR1B &= ~(_BV(RXCIE1));
+    UCSR0B &= ~(_BV(RXCIE0));
     
     ///* Switch off the GPS device
     //power_down_peripheral(PGPS);
