@@ -131,11 +131,11 @@ int main(void)
         transmit_UART0('Z');
         transmit_UART0('\r');
         Current_state.pwm.x_dir = 0;
-            Current_state.pwm.x = 32768*2*A[i];
+            Current_state.pwm.x = 32768;
         Current_state.pwm.y_dir = 0;
-            Current_state.pwm.y = 32768;//*2*B[i];
+            Current_state.pwm.y = 32768/2;
         Current_state.pwm.z_dir = 0;
-            Current_state.pwm.z = 32768;//*2*C[i];
+            Current_state.pwm.z = 32768/4;//*2*C[i];
         set_PWM ();
             
             

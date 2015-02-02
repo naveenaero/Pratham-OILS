@@ -36,28 +36,42 @@ char arrayz[40];
 void init_UART_GPS(void )
 {
 
-  UCSR0A = 0;
-  UCSR0B = 0;
-  UCSR0C = 0;
-  
-  ///Double Baud Rate
-  UCSR0A |= _BV(U2X0);
-  ///Enable Reception
-  UCSR0B |= _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);
-  ///8-bit Data Byte, 2 Stop bits
-  UCSR0C |= _BV(USBS0) | _BV(UCSZ01) | _BV(UCSZ00);
-  ///Set Baud Rate to 9600
-  UBRR0L = 103;
-  UBRR0H = 0;
+    UCSR1A = 0;
+    UCSR1B = 0;
+    UCSR1C = 0;
+    
+    ///Double Baud Rate
+    UCSR1A |= _BV(U2X1);
+    ///Enable Transmission and Reception
+    UCSR1B |= _BV(TXEN1) | _BV(RXEN1) | _BV(RXCIE1);
+    ///8-bit Data Byte
+    UCSR1C |= _BV(UCSZ11) | _BV(UCSZ10);
+    ///Set Baud Rate to 9600
+    UBRR1L = 103;
+    UBRR1H = 0;
+
+//  UCSR0A = 0;
+//  UCSR0B = 0;
+//  UCSR0C = 0;
+//  
+//  ///Double Baud Rate
+//  UCSR0A |= _BV(U2X0);
+//  ///Enable Reception
+//  UCSR0B |= _BV(RXEN0) | _BV(TXEN0) | _BV(RXCIE0);
+//  ///8-bit Data Byte, 2 Stop bits
+//  UCSR0C |= _BV(USBS0) | _BV(UCSZ01) | _BV(UCSZ00);
+//  ///Set Baud Rate to 9600
+//  UBRR0L = 103;
+//  UBRR0H = 0;
 }
 
 /** @brief Interrupt on receiving a byte through UART GPS
  */
-ISR(USART0_RX_vect)
+ISR(USART1_RX_vect)
 {
   
   ///Buffer the Received Byte
-  last_byte = UDR0;
+  last_byte = UDR1;
   
   ///Put the received byte in the last 4-bytes buffer
   buffer = buffer << 8;
@@ -73,7 +87,7 @@ ISR(USART0_RX_vect)
 		Current_state.gps.x = Current_state.gps.x >> 8;
 		Current_state.gps.x &= 0x00FFFFFF;
         Current_state.gps.x |= ((uint32_t) last_byte)<<24;
-        sprintf(arrayx,"%x %x",last_byte);transmit_string_UART0(arrayx);
+//        sprintf(arrayx,"%x %x",last_byte);transmit_string_UART0(arrayx);
 		//transmit_UART0('\r');*/
 	}
 	else if (pos<8)
@@ -81,7 +95,7 @@ ISR(USART0_RX_vect)
 		Current_state.gps.y = Current_state.gps.y >> 8;
 		Current_state.gps.y &= 0x00FFFFFF;
 		Current_state.gps.y |= ((uint32_t) last_byte)<<24;
-		sprintf(arrayy,"%x %x",last_byte);transmit_string_UART0(arrayy);
+//		sprintf(arrayy,"%x %x",last_byte);transmit_string_UART0(arrayy);
 		//transmit_UART0('\r');*/
 	}
 	
@@ -90,7 +104,7 @@ ISR(USART0_RX_vect)
 		Current_state.gps.z = Current_state.gps.z >> 8;
 		Current_state.gps.z &= 0x00FFFFFF;
 		Current_state.gps.z |= ((uint32_t) last_byte)<<24;
-		sprintf(arrayz,"%x %x",last_byte);transmit_string_UART0(arrayz);
+//		sprintf(arrayz,"%x %x",last_byte);transmit_string_UART0(arrayz);
 		//transmit_UART0('\r');*/
 	}
     ///* Increment position and terminate it if full
@@ -239,7 +253,7 @@ ISR(USART0_RX_vect)
     GPS_done = 1;
     
     ///* Switch off the interrupt
-    UCSR0B &= ~(_BV(RXCIE0));
+    UCSR1B &= ~(_BV(RXCIE1));
     
     ///* Switch off the GPS device
     //power_down_peripheral(PGPS);

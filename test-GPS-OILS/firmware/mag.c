@@ -43,10 +43,6 @@ void poll_MM(void)
   
   ///Send the poll command
   send_MM_cmd("*00P\r");
-  while(1) {
-    tmp = receive_MM();
-    send_preflight(&tmp, 1);
-  }
   
   x = ((int16_t)receive_MM()) << 8;
   x &= 0xFF00;
@@ -63,9 +59,9 @@ void poll_MM(void)
   
   receive_MM();
   
-  char buf[100];
-  sprintf(buf,"%d %d %d\r",  x, y, z);
-  send_preflight(buf, strlen(buf));
+//  char buf[100];
+//  sprintf(buf,"%d %d %d\r",  x, y, z);
+//  send_preflight(buf, strlen(buf));
     
   ///Convert the readings to Gauss
   Current_state.mm.B_x = ((float) x) / 15000;

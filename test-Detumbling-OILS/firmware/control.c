@@ -99,22 +99,33 @@ void apply_torque(vector v_m_D)
     vg[0] = fabs((v_m_D[0] * PWM_RES) / I_MAX);
     vg[1] = fabs((v_m_D[1] * PWM_RES) / I_MAX);
     vg[2] = fabs((v_m_D[2] * PWM_RES) / I_MAX);
-    
+        
+        
     /// Assigning required values of currents to be given to torquers
-    Current_state.pwm.x = fabs((v_m_D[0] * PWM_RES) / I_MAX);
-    Current_state.pwm.y = fabs((v_m_D[1] * PWM_RES) / I_MAX);
-    Current_state.pwm.z = fabs((v_m_D[2] * PWM_RES) / I_MAX);
-    
-    /// Assigning direction of current in the torquers
+        Current_state.pwm.x = fabs((v_m_D[0] * PWM_RES) / I_MAX);
+        Current_state.pwm.y = fabs((v_m_D[2] * PWM_RES) / I_MAX);
+        Current_state.pwm.z = fabs((v_m_D[1] * PWM_RES) / I_MAX);
+//
+//        temp[0] = Current_state.pwm.x;
+//        temp[1] = Current_state.pwm.z;//32768/4;
+//        temp[2] = Current_state.pwm.y;//32768/2;
+
+
+//    PWM[0] = fabs((v_m_D[0] * PWM_RES) / I_MAX);
+//    PWM[1] = fabs((v_m_D[2] * PWM_RES) / I_MAX);
+//    PWM[2] = fabs((v_m_D[1] * PWM_RES) / I_MAX);
+//        
+        /// Assigning direction of current in the torquers
     if(v_m_D[0] < 0)
-        Current_state.pwm.x_dir = 1;
+        Current_state.pwm.x_dir = 1;//Current_state.pwm.x_dir = 1;
     if(v_m_D[1] < 0)
-        Current_state.pwm.y_dir = 1;
+        Current_state.pwm.z_dir = 1;//Current_state.pwm.y_dir = 1;
     if(v_m_D[2] < 0)
-        Current_state.pwm.z_dir = 1;
+        Current_state.pwm.y_dir = 1;//Current_state.pwm.z_dir = 1;
     
-    set_PWM();
-}
+        
+       
+    }
 
 void control(void)
 {
@@ -131,7 +142,7 @@ void control(void)
     detumbling(v_m_D);
     
     /// Check if the satellite is in detumbling mode
-    if (vector_norm(v_m_D) > -0)
+    if (vector_norm(v_m_D) >= 0)
         {
             apply_torque(v_m_D);
         }

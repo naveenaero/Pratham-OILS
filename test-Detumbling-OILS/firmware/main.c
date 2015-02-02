@@ -153,6 +153,8 @@ int main(void)
                /// Apply control Law
                control();
                
+               set_PWM();
+               
                
                /// Transmit Magnetic field Data to terminal
                sprintf(sx,"%d",Bx);
@@ -235,7 +237,7 @@ int main(void)
 //               transmit_string_UART0(sz);
 //               transmit_UART0(' ');
 //               transmit_UART0('\r');
-//               
+               
 //               sprintf(sz,"%d",temp);
 //               transmit_UART0('M');
 //               transmit_string_UART0(sz);
@@ -250,21 +252,21 @@ int main(void)
                
                
                /// Transmit Torquer Current Data to the Terminal
-//               sprintf(sx,"%d",Current_state.pwm.x);
-//               transmit_UART0('X');
-//               transmit_string_UART0(sx);
-//               transmit_UART0(' ');
-//               
-//               sprintf(sy,"%d",Current_state.pwm.y);
-//               transmit_UART0('Y');
-//               transmit_string_UART0(sy);
-//               transmit_UART0(' ');
-//               
-//               sprintf(sz,"%d",Current_state.pwm.z);
-//               transmit_UART0('Z');
-//               transmit_string_UART0(sz);
-//               transmit_UART0(' ');
-//               transmit_UART0('\r');
+               sprintf(sx,"%d",Current_state.pwm.x);
+               transmit_UART0('X');
+               transmit_string_UART0(sx);
+               transmit_UART0(' ');
+               
+               sprintf(sy,"%d",Current_state.pwm.y);
+               transmit_UART0('Y');
+               transmit_string_UART0(sy);
+               transmit_UART0(' ');
+               
+               sprintf(sz,"%d",Current_state.pwm.z);
+               transmit_UART0('Z');
+               transmit_string_UART0(sz);
+               transmit_UART0(' ');
+               transmit_UART0('\r');
                
                
 //               

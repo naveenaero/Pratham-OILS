@@ -36,7 +36,7 @@ void power_down_peripheral(uint8_t device)
 
 void read_GPS(void){
   ///* Switch on the GPS interrupt
-  UCSR0B |= _BV(RXCIE0);
+  UCSR1B |= _BV(RXCIE1);
   ///* Switch on the GPS
   // power_up_peripheral(PGPS);
   
@@ -62,20 +62,20 @@ void read_MM(void){
 }
 
 
-void send_prefligh_t(uint8_t *data, int size)
-{
-  int i = 0;
-  
-  ///Loop through the data
-  while(i < size)
-  {
-    ///* Wait for empty transmit buffer 
-    while ( !(UCSR0A & (_BV(UDRE0))) );
-    ///* Start transmission
-    UDR0 = data[i];
-    i++;
-  }
-}
+//void send_prefligh_t(uint8_t *data, int size)
+//{
+//  int i = 0;
+//  
+//  ///Loop through the data
+//  while(i < size)
+//  {
+//    ///* Wait for empty transmit buffer 
+//    while ( !(UCSR0A & (_BV(UDRE0))) );
+//    ///* Start transmission
+//    UDR0 = data[i];
+//    i++;
+//  }
+//}
 
 void configure_torquer(void)
 {
