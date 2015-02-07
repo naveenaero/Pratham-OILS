@@ -17,4 +17,9 @@
  */
 void init_UART_GPS(void );
 
+void process_GPS(void);
+
+uint8_t receive_GPS(void);
+
+
 #endif /* GPS_H_ */

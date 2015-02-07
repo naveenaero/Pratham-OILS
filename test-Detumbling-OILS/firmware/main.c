@@ -30,30 +30,30 @@ volatile struct state Current_state;
 //int16_t Bx,By,Bz;
 volatile uint8_t tot_overflow;
 
-void timer_init(void)
-{
-    // set up timer with prescaler = 256
-    TCCR1B |= (1 << CS11);
-    
-    // initialize counter
-    TCNT1 = 0;
-    
-    // enable overflow interrupt
-    TIMSK |= (1 << TOIE1);
-    
-    // enable global interrupts
-    sei();
-    
-    // initialize overflow counter variable
-    tot_overflow = 0;
-}
-
-ISR(TIMER1_OVF_vect)
-{
-    // keep a track of number of overflows
-    tot_overflow++;
-    
-}
+//void timer_init(void)
+//{
+//    // set up timer with prescaler = 256
+//    TCCR1B |= (1 << CS11);
+//    
+//    // initialize counter
+//    TCNT1 = 0;
+//    
+//    // enable overflow interrupt
+//    TIMSK |= (1 << TOIE1);
+//    
+//    // enable global interrupts
+//    sei();
+//    
+//    // initialize overflow counter variable
+//    tot_overflow = 0;
+//}
+//
+//ISR(TIMER1_OVF_vect)
+//{
+//    // keep a track of number of overflows
+//    tot_overflow++;
+//    
+//}
 
 /************************************************************/
 /*				Main begins									*/
@@ -152,8 +152,8 @@ int main(void)
            {
                /// Apply control Law
                control();
-               
                set_PWM();
+               
                
                
                /// Transmit Magnetic field Data to terminal
@@ -274,6 +274,7 @@ int main(void)
                
                
            }
+           
            
            
            

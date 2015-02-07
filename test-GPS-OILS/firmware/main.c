@@ -30,6 +30,7 @@ volatile int8_t GPS_done = -1;
 uint8_t Mode;
 uint64_t Time;
 volatile struct state Current_state;
+uint8_t i;
 //@}
 
 /************************************************************/
@@ -37,22 +38,6 @@ volatile struct state Current_state;
 /************************************************************/
 int main(void)
 {
-	//Current_state.gps.x = 1;
-	//Current_state.gps.y = 1;
-	//Current_state.gps.z = 1;
-	//Current_state.gps.v_x = 1;
-	//Current_state.gps.v_y = 1;
-	//Current_state.gps.v_z = 1;
-	//Current_state.gps.year = 1;
-	//Current_state.gps.alt = 1;
-	//Current_state.gps.date = 1;
-	//Current_state.gps.hours = 1;
-	//Current_state.gps.lat = 1;
-	//Current_state.gps.lon = 1;
-	//Current_state.gps.minutes = 1;
-	//Current_state.gps.month = 1;
-	//Current_state.gps.seconds = 1; 
-	//Current_state.gps.time_since_reading = 1; 
 	char array[40];
 	char array1[40];
 	char array2[40];
@@ -89,52 +74,61 @@ int main(void)
 	///* Switch on Global interrupts
 	sei();
   
+    //uint8_t GPS_data[159];
+    uint8_t temp;
 /************************************************************/
-	while(1){
-	PORTA = 0xA0;
-	_delay_ms(500);
-	PORTA = 0x50;
-	_delay_ms(500);
-	
-	transmit_UART0('\r');
-	transmit_UART0('\r');
-	transmit_UART0('H');
-	transmit_UART0('i');
-	
-//	transmit_string_UART0(array1);
-//	transmit_string_UART0(array2);
-	
-/************************************************************/
-	PORTA = 0xA0;
-	_delay_ms(500);
-	PORTA = 0x50;
-	_delay_ms(500);
-	
-	///* * Reading GPS
-    read_GPS();
-    while(UCSR0B & _BV(RXCIE0));
+	while(1)
+    {
+        
+        while (!(UCSR0A & _BV(RXC0)));
+        temp =  UDR0;
+        transmit_UART0('A');
+
+        
+        
+//        for (i=0;i<159;i++)
+//        {
+//            GPS_data[i] = receive_GPS();
+//            
+//        }
+//        
+//        for(i=0;i<4;i++)
+//        {
+//            temp = temp >> 8;
+//            temp &= 0x00FFFFFF;
+//            temp |= ((uint32_t) GPS_data[i])<<24;
+//            
+//        }
+//        sprintf(array,"x = %lu \n",temp);
+//        transmit_string_UART0(array);
+        
+        
+    //process_GPS();
+    //	read_GPS();
+    //while(UCSR0B & _BV(RXCIE0));
+    
 //	send_preflight((char *)&Current_state.gps, sizeof(struct GPS_reading));
-	sprintf(array,"x = %lu \n",Current_state.gps.x);
-    transmit_string_UART0(array);
-        
-	sprintf(array,"y = %lu \n",Current_state.gps.y);
-    transmit_string_UART0(array);
-        
-	sprintf(array,"z = %lu \n",Current_state.gps.z);
-    transmit_string_UART0(array);
+//	sprintf(array,"x = %lu \n",Current_state.gps.x);
+//    transmit_string_UART0(array);
+//        
+//	sprintf(array,"y = %lu \n",Current_state.gps.y);
+//    transmit_string_UART0(array);
+//        
+//	sprintf(array,"z = %lu \n",Current_state.gps.z);
+//    transmit_string_UART0(array);
 
 //	sprintf(array,"x = %x\n",Current_state.gps.x);transmit_string_UART0(array);
 //	sprintf(array,"y = %x\n",Current_state.gps.y);transmit_string_UART0(array);
 //	sprintf(array,"z = %x\n",Current_state.gps.z);transmit_string_UART0(array);	
 	
-        sprintf(array,"%lu ",Current_state.gps.v_x);
-    transmit_string_UART0(array);
-        
-	sprintf(array,"%lu ",Current_state.gps.v_y);
-    transmit_string_UART0(array);
-        
-	sprintf(array,"%lu ",Current_state.gps.v_z);
-    transmit_string_UART0(array);
+//    sprintf(array,"%lu ",Current_state.gps.v_x);
+//    transmit_string_UART0(array);
+//        
+//	sprintf(array,"%lu ",Current_state.gps.v_y);
+//    transmit_string_UART0(array);
+//        
+//	sprintf(array,"%lu ",Current_state.gps.v_z);
+//    transmit_string_UART0(array);
 	
 /************************************************************/
 	}

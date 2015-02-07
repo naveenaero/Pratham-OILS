@@ -16,6 +16,7 @@
 #include "sun.h"
 #include "gps.h"
 #include "hm.h"
+#include "uart.h"
 
 uint8_t PWM_init = 0;
 
@@ -128,9 +129,31 @@ void set_PWM(void)
     PORTC |= _BV(PC3);
   else
     PORTC &= ~(_BV(PC3));
-    
-  ///Set PWM values
+    char txt[6];
+    itoa(Current_state.pwm.x, txt, 10);
+    transmit_string_UART0(txt);
+    transmit_UART0('\t');
+    itoa(Current_state.pwm.y, txt, 10);
+    transmit_string_UART0(txt);
+    transmit_UART0('\t');
+    itoa(Current_state.pwm.z, txt, 10);
+    transmit_string_UART0(txt);
+    transmit_UART0('\r');
+    transmit_UART0('\n');
+    ///Set PWM values
   OCR3A = Current_state.pwm.x;
   OCR3B = Current_state.pwm.y;
   OCR3C = Current_state.pwm.z;
+    
+    itoa(OCR3A, txt, 10);
+    transmit_string_UART0(txt);
+    transmit_UART0('\t');
+    itoa(OCR3B, txt, 10);
+    transmit_string_UART0(txt);
+    transmit_UART0('\t');
+    itoa(OCR3C, txt, 10);
+    transmit_string_UART0(txt);
+    transmit_UART0('\r');
+    transmit_UART0('\n');
+    
 }

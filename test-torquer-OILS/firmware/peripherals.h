@@ -18,6 +18,15 @@
 
 #define TRUE 1
 #define FALSE 0
+int16_t Bx,By,Bz;
+int16_t vg[3];
+int16_t norm_vect;
+int16_t Bdot[3];
+uint16_t temp[3];
+// PWM variables
+uint16_t PWM[3];
+uint8_t PWM_dir[3];
+
 
 /// Captures GPS reading
 struct GPS_reading{
@@ -82,7 +91,7 @@ void read_SS(void);
 /**
  * @brief Reads magnetometer through UART
  */
-//void read_MM (void);
+void read_MM (void);
 
 /** @brief Send the data to Preflight computer through UART GPS
  *  @param data bytes pointer

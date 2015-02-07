@@ -102,10 +102,7 @@ void apply_torque(vector v_m_D)
         
         
     /// Assigning required values of currents to be given to torquers
-        Current_state.pwm.x = fabs((v_m_D[0] * PWM_RES) / I_MAX);
-        Current_state.pwm.y = fabs((v_m_D[2] * PWM_RES) / I_MAX);
-        Current_state.pwm.z = fabs((v_m_D[1] * PWM_RES) / I_MAX);
-
+        
 //        temp[0] = Current_state.pwm.x;
 //        temp[1] = Current_state.pwm.z;//32768/4;
 //        temp[2] = Current_state.pwm.y;//32768/2;

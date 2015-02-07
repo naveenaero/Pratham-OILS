@@ -34,13 +34,13 @@ void power_down_peripheral(uint8_t device)
   send_loads();
 }
 
-void read_GPS(void){
-  ///* Switch on the GPS interrupt
-  UCSR1B |= _BV(RXCIE1);
-  ///* Switch on the GPS
-  // power_up_peripheral(PGPS);
-  
-}
+//void read_GPS(void){
+//  ///* Switch on the GPS interrupt
+//  UCSR1B |= _BV(RXCIE1);
+//  ///* Switch on the GPS
+//  // power_up_peripheral(PGPS);
+//  
+//}
 void read_SS(void){
   
   ///Configure the Sunsensor ADC IC
