@@ -21,8 +21,6 @@
 #include "uart.h"
 #include "mag.h"
 #include "peripherals.h"
-#include "control.h"
-
 
 int dir=0;
 int i=1;
@@ -165,17 +163,7 @@ int main(void)
            if (Bx != 0x00 || By != 0x00 || Bz != 0x00)
            {
                
-               control();
-               Current_state.pwm.x = vg[0];//32768;//fabs((v_m_D[0] * PWM_RES) / I_MAX);
-               Current_state.pwm.y = vg[2];//32768/4;//fabs((v_m_D[2] * PWM_RES) / I_MAX);
-               Current_state.pwm.z = vg[1];//;//fabs((v_m_D[1] * PWM_RES) / I_MAX);
 
-               set_PWM();
-           /// Copy Bx,By,Bz into Strings for transmiting
-//           transmit_string_UART0(array2);
-           sprintf(sz,"%d",Bz);
-//           sprintf(sy,"%d",By);
-//           sprintf(sz,"%d",Bz);
            
            transmit_UART0('z');
            transmit_string_UART0(sz);
@@ -202,18 +190,18 @@ int main(void)
            transmit_UART0(' ');
            transmit_UART0('Z');
            transmit_UART0('\r');
-//        if (dir==0)
-//            dir=1;
-//        else
-//            dir=0;
-//           Current_state.pwm.x_dir = dir;
-//           Current_state.pwm.x = 32768*2*Bx/5225;
-//           Current_state.pwm.y_dir = dir;
-//           Current_state.pwm.y = 32768*By*2/5225;
-//           Current_state.pwm.z_dir = dir;
-//           Current_state.pwm.z = 32768*Bz*2/5225;
-//           set_PWM();
-//          
+        if (dir==0)
+            dir=1;
+        else
+            dir=0;
+           Current_state.pwm.x_dir = dir;
+           Current_state.pwm.x = 32768*2*Bx/5225;
+           Current_state.pwm.y_dir = dir;
+           Current_state.pwm.y = 32768*By*2/5225;
+           Current_state.pwm.z_dir = dir;
+           Current_state.pwm.z = 32768*Bz*2/5225;
+           set_PWM();
+          
 
             }
       

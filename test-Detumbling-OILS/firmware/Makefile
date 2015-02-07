@@ -68,7 +68,7 @@ all:	main.hex
 	$(COMPILE) -S $< -o $@
 
 flash:	all
-	$(AVRDUDE) -U flash:w:main.hex:i
+	$(AVRDUDE) -U flash:w:main.hex
 
 fuse:
 	$(AVRDUDE) $(FUSES)
