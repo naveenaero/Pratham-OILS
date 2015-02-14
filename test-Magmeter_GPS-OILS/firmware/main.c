@@ -21,6 +21,7 @@
 #include "uart.h"
 #include "mag.h"
 #include "peripherals.h"
+#include "gps.h"
 
 volatile uint8_t tot_overflow;
 
@@ -78,8 +79,9 @@ int main(void)
     
     
     /// Inittialise UART0 for Transmission to terminal
-     init_UART0();
-    
+    init_UART0();
+    /// Inittialise UART1 for Transmission to terminal
+    init_UART1();
     
     /// Transmit "Hello" String
      transmit_UART0('\r');
@@ -93,11 +95,13 @@ int main(void)
     
      sprintf(array1,"\tThis is PRATHAM's OBC-Master code...");
      sprintf(array2,"\rCurrent MagnetoMeter state is =\t");
-     transmit_string_UART0(array1);
-     transmit_string_UART0(array2);
+     transmit_string_UART1(array1);
+     transmit_string_UART1(array2);
     
     /// Initialise UART1 for Magnetometer Reception of Data and Transmission of Poll
      init_UART_MM();
+    /// Initialise UART0 for Magnetometer Reception of Data and Transmission of Poll
+    init_UART_GPS();
     /// Configure the torquer to output the required current values
 //     configure_torquer();
     
@@ -145,10 +149,12 @@ int main(void)
 
 
                /// Transmit Carriage return
-               transmit_UART0('\r');
+               transmit_UART1('\r');
                
                if (Bx != 0x00 || By != 0x00 || Bz != 0x00)
                {
+                   
+                   read_GPS();
                    
                    Current_state.mm.B_x=Bx;
                 
@@ -156,29 +162,40 @@ int main(void)
                    sprintf(sx,"%d",Current_state.mm.B_x);
                    
                    
-                   transmit_UART0('x');
-                   transmit_string_UART0(sx);
-                   transmit_UART0(' ');
+                   transmit_UART1('x');
+                   transmit_string_UART1(sx);
+                   transmit_UART1(' ');
                    
-                   transmit_UART0('y');
+                   transmit_UART1('y');
                    sprintf(sx,"%d",Bz);
                    
-                   transmit_string_UART0(sx);
-                   transmit_UART0(' ');
+                   transmit_string_UART1(sx);
+                   transmit_UART1(' ');
                    
-                   transmit_UART0('z');
+                   transmit_UART1('z');
                    sprintf(sx,"%d",Bz);
                    
-                   transmit_string_UART0(sx);
-                   transmit_UART0('\r');
+                   transmit_string_UART1(sx);
+                   transmit_UART1('\r');
                    
-                   transmit_string_UART0("Hello this is Naveen from IITB");
-                   transmit_UART0('\r');
+                   transmit_string_UART1("Hello this is Naveen from IITB");
+                   transmit_UART1('\r');
+                   
+                   send_preflight((char *)&Current_state.gps, sizeof(struct GPS_reading));
+                   sprintf(array,"x = %lu \n",Current_state.gps.x);
+                   transmit_string_UART0(array);
+                   
+                   sprintf(array,"y = %lu \n",Current_state.gps.y);
+                   transmit_string_UART0(array);
+                   
+                   sprintf(array,"z = %lu \n",Current_state.gps.z);
+                   transmit_string_UART0(array);
                
                }
-                
-           read_GPS();
            
+           
+           
+                           
        }
     
            
